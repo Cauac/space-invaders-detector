@@ -66,3 +66,13 @@
 (defn print-matrix [matrix]
   (doseq [vector matrix]
     (println (apply str vector))))
+
+(defn update-indexed
+  "Walks through the matrix and updates each element with provided function.
+   Thus function f should accept 3 arguments(y,x coordinates and element value)."
+  [matrix f]
+  (vec
+    (map-indexed
+      (fn [y v]
+        (vec (map-indexed (fn [x el] (f y x el)) v)))
+      matrix)))

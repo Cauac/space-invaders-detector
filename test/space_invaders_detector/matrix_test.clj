@@ -126,3 +126,9 @@
      (let [m-1 [[\# \*]]
            m-2 [[\# \#] [\@ \@]]]
        (is (= 50.0 (rate-match m-1 m-2)))))))
+
+(deftest update-indexed-test
+  (testing "Basic test"
+    (is (= [["000"]] (update-indexed matrix-1x1 str)))
+    (is (= [["000" "010"] ["101" "111"]] (update-indexed matrix-2x2 str)))
+    (is (= [["000"] ["101"] ["202"] ["303"]] (update-indexed matrix-4x1 str)))))

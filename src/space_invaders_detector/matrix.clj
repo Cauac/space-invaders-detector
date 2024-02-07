@@ -69,7 +69,7 @@
 
 (defn update-indexed
   "Walks through the matrix and updates each element with provided function.
-   Thus function f should accept 3 arguments(y,x coordinates and element value)."
+   Thus function f should accept 3 arguments (y,x coordinates and element value)."
   [matrix f]
   (vec
     (map-indexed

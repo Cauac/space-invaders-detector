@@ -1,4 +1,5 @@
 (ns space-invaders-detector.core
+  (:gen-class)
   (:require
     [space-invaders-detector.detector :as detector]
     [space-invaders-detector.matrix :as matrix]))

@@ -33,18 +33,20 @@
     (is (= expected (first results))))
   (let [results (scan matrix-4x3 [[1 "*"] [2 2]] 50)
         expected-1 (target/->LocatedInvader [1 0 2 1] [[1 1] [2 2]] 75.0)
-        expected-2 (target/->LocatedInvader [1 1 2 2] [[1 1] [2 2]] 75.0)]
-    (is (= 2 (count results)))
-    (is (= [expected-1 expected-2] results)))
+        expected-2 (target/->LocatedInvader [1 1 2 2] [[1 1] [2 2]] 75.0)
+        expected-3 (target/->LocatedInvader [1 2 2 3] [[1 :#] [2 :#]] 50.0)]
+    (is (= 3 (count results)))
+    (is (= [expected-1 expected-2 expected-3] results)))
   (let [data [[1 0 0]
               [1 1 1]
               [2 2 2]]
         pattern matrix-2x2
         results (scan data pattern 50)
         expected-1 (target/->LocatedInvader [0 0 1 1] [[1 0] [1 1]] 75.0)
-        expected-2 (target/->LocatedInvader [0 1 1 2] [[0 0] [1 1]] 100.0)]
-    (is (= 2 (count results)))
-    (is (= [expected-1 expected-2] results))))
+        expected-2 (target/->LocatedInvader [0 1 1 2] [[0 0] [1 1]] 100.0)
+        expected-3 (target/->LocatedInvader [0 2 1 3] [[0 :#] [1 :#]] 50.0)]
+    (is (= 3 (count results)))
+    (is (= [expected-1 expected-2 expected-3] results))))
 
 (deftest highlight-targets-test
   (let [data [[1 2 3]

@@ -2,7 +2,8 @@
 
 (defprotocol Target
   (includes-point? [this y x] "True if the specified point is a part of the target")
-  (accurate? [this limit] "Thue if target meets the accuracy limit"))
+  (accurate? [this limit] "Thue if target meets the accuracy limit")
+  (translation-location [this offset] "Shifts target location with provided offset"))
 
 (defrecord LocatedInvader [location data accuracy]
   Target
@@ -11,4 +12,6 @@
       (and (<= y1 y y2) (<= x1 x x2))))
   (accurate? [_ limit]
     (<= limit accuracy))
+  (translation-location [_ offset]
+    (LocatedInvader. (mapv #(- % offset) location) data accuracy))
   )

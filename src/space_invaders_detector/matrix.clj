@@ -76,3 +76,18 @@
       (fn [y v]
         (vec (map-indexed (fn [x el] (f y x el)) v)))
       matrix)))
+
+(defn- wrap-with-frame [matrix-part frame]
+  (vec (concat frame matrix-part frame)))
+
+(defn frame
+  "Adds a frame around the matrix."
+  [matrix frame-width]
+  (let [new-width (+ (width matrix) (* 2 frame-width))
+        frame-line (vec (repeat new-width :#))
+        frame-block (vec (repeat frame-width frame-line))
+        side-frame (vec (repeat frame-width :#))]
+    (wrap-with-frame
+      (mapv #(wrap-with-frame % side-frame) matrix)
+      frame-block)))
+

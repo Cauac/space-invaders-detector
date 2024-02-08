@@ -22,10 +22,10 @@
   (-> (slurp file)
       (matrix/str->matrix)))
 
-(defn run []
-  (let [invaders (read-invader-samples "resources/invader-samples.txt")
-        radar-data (read-radar-sample "resources/radar-sample.txt")
-        targets (mapcat #(detector/scan radar-data % default-detection-threshold) invaders)]
+(defn process-radar-data [radar-file invaders-file threshold]
+  (let [invaders (read-invader-samples invaders-file)
+        radar-data (read-radar-sample radar-file)
+        targets (mapcat #(detector/scan radar-data % threshold) invaders)]
     (if (seq targets)
       (do
         (println "Detected hostile objects:")
@@ -63,6 +63,7 @@
     "))
 
 (defn -main [& console-params]
-  (if-let [params (process-input-params console-params)]
-    (println params)
-    (print-help)))
+  (if-let [{:keys [patterns data threshold]} (process-input-params console-params)]
+    (process-radar-data data patterns threshold)
+    (print-help))
+  (System/exit 1))

@@ -36,3 +36,19 @@
                   [\o \o \o \- \- \- \- \- \o \- \o \- \- \-]
                   [\o \o \o \- \- \- \- \- \- \o \- \- \- \-]]]
     (is (= expected radar-2))))
+
+(deftest process-input-params-test
+  (testing "Console input processing. It shall always return nil when input is invalid or inconsistent."
+    (testing "Valid params"
+      (is (= {:patterns "file1" :data "file2" :threshold 98}
+             (process-input-params ["--data" "file2" "--patterns" "file1" "--threshold" "98"]))))
+    (testing "Invalid params scenario"
+     (is (nil? (process-input-params [])))
+     (is (nil? (process-input-params ["a" "1"])))
+     (is (nil? (process-input-params ["--a" "1"])))
+     (is (nil? (process-input-params ["b" "1" "b"])))
+     (is (nil? (process-input-params ["--data" "file" "--patterns"])))
+     (is (nil? (process-input-params ["--data" "file" "--patterns" "file" "--threshold"])))
+     (is (nil? (process-input-params ["--data" "file" "--patterns" "file" "--threshold" "not-number"])))
+     (is (nil? (process-input-params ["--data" "file" "--patterns" "file" "--threshold" "-100"])))
+     (is (nil? (process-input-params ["--data" "file" "--patterns" "file" "--threshold" "100500"]))))))

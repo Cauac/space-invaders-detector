@@ -37,3 +37,32 @@
         (-> (detector/highlight-targets radar-data targets)
             (matrix/print-matrix)))
       (println "No enemies are found"))))
+
+(defn process-input-params [params]
+  (when (and (seq params) (even? (count params)))
+    (let [params-map (apply array-map params)
+          patterns (get params-map "--patterns")
+          data (get params-map "--data")
+          threshold (if (contains? params-map "--threshold")
+                      (parse-long (get params-map "--threshold" ""))
+                      default-detection-threshold)]
+      (when (and data patterns threshold (<= 0 threshold 100))
+        {:patterns patterns :data data :threshold threshold}))))
+
+(defn print-help []
+  (println "
+    Space invaders detector helps you to find aliens on your radar.
+
+    Usage:
+    java -jar detector.jar --patterns invaders.txt --data radar.txt --threshold 85
+
+    Options:
+      --data          a text file with radar sample
+      --patterns      a text file with known patterns to detect
+      --threshold     a number [0-100], defines detection accuracy (optional) (default 75)
+    "))
+
+(defn -main [& console-params]
+  (if-let [params (process-input-params console-params)]
+    (println params)
+    (print-help)))

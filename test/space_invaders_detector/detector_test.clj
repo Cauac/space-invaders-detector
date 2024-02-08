@@ -55,4 +55,6 @@
         expected [[1              2 (colors/red 3)]
                   [(colors/red 4) 5 (colors/red 6)]
                   [(colors/red 7) 8 9]]]
-    (is (= expected (highlight-targets data targets)))))
+    (is (= expected (highlight-targets data targets)))
+    (testing "Radar data staying the same if no targets"
+      (is (= data (highlight-targets data []))))))
